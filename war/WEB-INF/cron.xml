@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/friendsfootball/clean</url>
+		<description>Clean actual day participant flag</description>
+		<schedule>every day 23:30</schedule>
+		<timezone>Europe/Budapest</timezone>
+	</cron>
+</cronentries>

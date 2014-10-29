@@ -1,0 +1,13 @@
+
+.top
+{
+	background-color : #D8D8D8;
+} 
+
+.context
+{
+	background-image : url('images/ball.bmp'); 	
+	background-repeat: repeat-x;
+	background-attachment: fixed;
+	background-position: 100% 90%;	
+} 

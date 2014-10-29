@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID"
+version="2.5">
+
+  <!-- Servlets --> 
+  <servlet>
+    <servlet-name>serviceServlet</servlet-name>
+    <servlet-class>hu.safi.friendsfootball.server.FriendsfootballServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>cleanServlet</servlet-name>
+    <servlet-class>hu.safi.friendsfootball.server.Clean</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>initServlet</servlet-name>
+    <servlet-class>hu.safi.friendsfootball.server.Init</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>serviceServlet</servlet-name>
+    <url-pattern>/friendsfootball/service</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>initServlet</servlet-name>
+    <url-pattern>/friendsfootball/init</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Friendsfootball.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>
