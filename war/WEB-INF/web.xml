@@ -28,10 +28,10 @@ version="2.5">
   </servlet-mapping>
   
   <servlet-mapping>
-    <servlet-name>initServlet</servlet-name>
-    <url-pattern>/friendsfootball/init</url-pattern>
+    <servlet-name>cleanServlet</servlet-name>
+    <url-pattern>/friendsfootball/clean</url-pattern>
   </servlet-mapping>
-  
+    
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Friendsfootball.html</welcome-file>
