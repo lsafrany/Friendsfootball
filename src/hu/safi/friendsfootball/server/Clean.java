@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +64,8 @@ public class Clean extends HttpServlet {
 			@SuppressWarnings("unchecked")
 			List<Participant> listParticipant = (List<Participant>) pm.newQuery(queryParticipant).execute();
 			if (!listParticipant.isEmpty()) {
-				Transaction txParticipant = pm.currentTransaction(); 
+//				Transaction txParticipant = pm.currentTransaction(); 
+//				txParticipant.begin();
 				for (Participant l : listParticipant) {
 					Player player = pm.getObjectById(Player.class, l.getPlayer());
 					Match match = pm.getObjectById(Match.class, l.getMatch());
@@ -75,7 +75,7 @@ public class Clean extends HttpServlet {
 						if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) log.info(player.getName() + " - " + match.getDay());
 					}
 				}	
-				txParticipant.commit();
+//				txParticipant.commit();
 			}
 			
 			out.append("</table>");
@@ -89,12 +89,13 @@ public class Clean extends HttpServlet {
 			List<History> listHistory = (List<History>) pm.newQuery(queryHistory).execute(date);		
 			out.append("<h1>" + date + "</h1>");
 			if (!listHistory.isEmpty()) {
-				Transaction txHistory = pm.currentTransaction(); 
+//				Transaction txHistory = pm.currentTransaction(); 
+//				txHistory.begin();
 				for (History l : listHistory) {
 					pm.deletePersistent(l);
 					count++ ;						 
 				}	
-				txHistory.commit();
+//				txHistory.commit();
 			}
 
 			out.append("<h1>" + count + "</h1>");
