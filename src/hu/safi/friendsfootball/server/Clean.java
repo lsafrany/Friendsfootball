@@ -55,7 +55,10 @@ public class Clean extends HttpServlet {
 		out.append("<h1>" + actDay + "</h1>");
 		if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) log.info(actDay);
 		
-		PersistenceManager pm = PMF.get().getPersistenceManager();		
+		PersistenceManager pm = PMF.get().getPersistenceManager();	
+//		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+//		com.google.appengine.api.datastore.Transaction txn = datastore.beginTransaction();
+
 		try {
 
 			out.append("<table>");
@@ -63,19 +66,16 @@ public class Clean extends HttpServlet {
 			Query queryParticipant = pm.newQuery("select from " + Participant.class.getName());
 			@SuppressWarnings("unchecked")
 			List<Participant> listParticipant = (List<Participant>) pm.newQuery(queryParticipant).execute();
-			if (!listParticipant.isEmpty()) {
-//				Transaction txParticipant = pm.currentTransaction(); 
-//				txParticipant.begin();
+			if (!listParticipant.isEmpty()) {				
 				for (Participant l : listParticipant) {
 					Player player = pm.getObjectById(Player.class, l.getPlayer());
 					Match match = pm.getObjectById(Match.class, l.getMatch());
 					if (actDay.equals(match.getDay())) {
-						l.setPotential(null);						
+						l.setPotential(null);		
 						out.append("<tr><td>" + player.getName() + " - " + match.getDay() + "</td></tr>");
 						if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) log.info(player.getName() + " - " + match.getDay());
 					}
 				}	
-//				txParticipant.commit();
 			}
 			
 			out.append("</table>");
@@ -89,21 +89,23 @@ public class Clean extends HttpServlet {
 			List<History> listHistory = (List<History>) pm.newQuery(queryHistory).execute(date);		
 			out.append("<h1>" + date + "</h1>");
 			if (!listHistory.isEmpty()) {
-//				Transaction txHistory = pm.currentTransaction(); 
-//				txHistory.begin();
 				for (History l : listHistory) {
-					pm.deletePersistent(l);
+//					pm.deletePersistent(l);
 					count++ ;						 
 				}	
-//				txHistory.commit();
 			}
 
 			out.append("<h1>" + count + "</h1>");
 			if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) log.info(count.toString());
 			
+//			txn.commit();
+			
 		} catch (Exception e) {
 			log.severe(e.getMessage()); 
 		} finally {
+//			if (txn.isActive()) {
+//				 txn.rollback();
+//			}
 			pm.close();
 		}			
 	

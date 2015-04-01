@@ -25,6 +25,8 @@ import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangedEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangedHandler;
+import com.smartgwt.client.widgets.form.fields.events.KeyPressEvent;
+import com.smartgwt.client.widgets.form.fields.events.KeyPressHandler;
 import com.smartgwt.client.widgets.form.validator.CustomValidator;
 import com.smartgwt.client.widgets.form.validator.MatchesFieldValidator;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -188,6 +190,36 @@ public class Friendsfootball implements EntryPoint {
              }  
         });  
 
+        userIdItem.addKeyPressHandler(new KeyPressHandler() {
+            public void onKeyPress(KeyPressEvent event) {                                                                        
+                if(event.getKeyName() != null) {
+                    if(event.getKeyName() != null) {
+                        String keyName = event.getKeyName();
+                        if(keyName.equals("Enter")) {                                                                            
+                        	if ((userIdItem.getValue() != null) && (passwordItem.getValue() != null)) {       
+                        		if (passwordCheckboxItem.getValue() == null) getUser(userIdItem.getValue().toString(),passwordItem.getValue().toString(),null);
+                        		else getUser(userIdItem.getValue().toString(),passwordItem.getValue().toString(),passwordCheckboxItem.getValue().toString());
+                        	}
+                    	
+                        	if ((userIdItem.getValue() != null) && (passwordItem.getValue() == null)) {
+                        		if (passwordCheckboxItem.getValue() != null)  {
+                        			DisplayRequest.getStatusLabel();
+                	    			footballService.sendPassword(userIdItem.getValue().toString(),new AsyncCallback<Object>() {
+                		    			public void onFailure(Throwable caught) {
+                		    				DisplayRequest.serverError(); 	 	
+                		    			}
+                		    			public void onSuccess(Object result) {		        			
+                		    				DisplayRequest.serverResponse();
+                		    			}
+                		    		});
+                        		}            			            		
+                        	}            	
+                        }                                                                      
+                    }
+                }                                              
+            }
+        });
+ 
         passwordItem.addChangedHandler(new ChangedHandler() {  
   			public void onChanged(ChangedEvent event) {
   				if (passwordItem.getValue() != null) passwordCheckboxItem.setTitle(ClientLabels.LOGIN_NEW_PASSWORD);   
@@ -196,6 +228,36 @@ public class Friendsfootball implements EntryPoint {
 			}
         });  
         
+        passwordItem.addKeyPressHandler(new KeyPressHandler() {
+            public void onKeyPress(KeyPressEvent event) {                                                                        
+                if(event.getKeyName() != null) {
+                    if(event.getKeyName() != null) {
+                        String keyName = event.getKeyName();
+                        if(keyName.equals("Enter")) {
+                        	if ((userIdItem.getValue() != null) && (passwordItem.getValue() != null)) {       
+                        		if (passwordCheckboxItem.getValue() == null) getUser(userIdItem.getValue().toString(),passwordItem.getValue().toString(),null);
+                        		else getUser(userIdItem.getValue().toString(),passwordItem.getValue().toString(),passwordCheckboxItem.getValue().toString());
+                        	}
+                        	
+                        	if ((userIdItem.getValue() != null) && (passwordItem.getValue() == null)) {
+                        		if (passwordCheckboxItem.getValue() != null)  {
+                        			DisplayRequest.getStatusLabel();
+                	    			footballService.sendPassword(userIdItem.getValue().toString(),new AsyncCallback<Object>() {
+                		    			public void onFailure(Throwable caught) {
+                		    				DisplayRequest.serverError(); 	 	
+                		    			}
+                		    			public void onSuccess(Object result) {		        			
+                		    				DisplayRequest.serverResponse();
+                		    			}
+                		    		});
+                        		}            			            		
+                        	}            	
+                        }                                                                      
+                    }
+                }                                              
+            }
+        });                    
+              
         form.setFields(userIdItem,passwordItem,passwordCheckboxItem);
         HLayout hLayout = new HLayout();
     	hLayout.setDefaultLayoutAlign(VerticalAlignment.CENTER);
